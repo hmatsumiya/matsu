@@ -86,43 +86,33 @@ function Buttonclick(ele){
 	direction = DIRECTION.RIGHT;
 	break;
 	
-//	default:
-//	alert(id);
+	case "mark":
+	if (cells[cursor_y][cursor_x].state < STATE.FILL) {
+	    cells[cursor_y][cursor_x].state = STATE.FILL;
+	} else {
+	    cells[cursor_y][cursor_x].state = STATE.EMPTY;
+	}
+	DrawMap();
+	CheckCell();
+	break;
+
+	
+	case "paint":
+	if (cells[cursor_y][cursor_x].state > STATE.IGNORE) {
+	    cells[cursor_y][cursor_x].state = STATE.IGNORE;
+	} else {
+	    cells[cursor_y][cursor_x].state = STATE.EMPTY;
+	}
+	DrawMap();
+	CheckCell();
+	break;
 	}
 	Move(direction);
 };
 
 //function touchStartEvent(){
 
-function startup() {
-  var el = document.getElementById("canvas");
-  el.addEventListener("touchstart", handleStart, false);
-  el.addEventListener("touchend", handleEnd, false);
-  el.addEventListener("touchcancel", handleCancel, false);
-  el.addEventListener("touchmove", handleMove, false);
-}
 
-document.addEventListener("DOMContentLoaded", startup);
-var ongoingTouches = [];
-
-function handleStart(evt) {
-  evt.preventDefault();
-  console.log("touchstart.");
-  var el = document.getElementById("canvas");
-  var ctx = el.getContext("2d");
-  var touches = evt.changedTouches;
-        
-  for (var i = 0; i < touches.length; i++) {
-    console.log("touchstart:" + i + "...");
-    ongoingTouches.push(copyTouch(touches[i]));
-    var color = colorForTouch(touches[i]);
-    ctx.beginPath();
-    ctx.arc(touches[i].pageX, touches[i].pageY, 4, 0, 2 * Math.PI, false);  // a circle at the start
-    ctx.fillStyle = color;
-    ctx.fill();
-    console.log("touchstart:" + i + ".");
-  }
-}
 
 
 function Move (direction) {
